@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_SISTEMAS_DAWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="Id_Ar" />
+          </Key>
+          <Property Name="Id_Ar" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Loc" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="Id_Em" />
+          </Key>
+          <Property Name="Id_Em" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="250" />
+          <Property Name="Razon_social" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Ruc" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="250" />
+          <Property Name="Telefono" Type="varchar" MaxLength="12" />
+          <Property Name="Usuario_creado" Type="varchar" MaxLength="250" />
+          <Property Name="Fecha_creado" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="Id_Loc" />
+          </Key>
+          <Property Name="Id_Loc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Em" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Encargado" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Puesto_trabajo">
+          <Key>
+            <PropertyRef Name="Id_Pue" />
+          </Key>
+          <Property Name="Id_Pue" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Loc" Type="int" Nullable="false" />
+          <Property Name="Id_Ar" Type="int" Nullable="false" />
+          <Property Name="Id_Em" Type="int" Nullable="false" />
+          <Property Name="Id_Cues" Type="int" Nullable="false" />
+          <Property Name="Documento_identidad" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="NombreCompleto" Type="varchar" MaxLength="200" />
+          <Property Name="MedidaVisual" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ResultadoMedidaVisual" Type="varchar" MaxLength="100" />
+          <Property Name="MedidaAuditiva" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ResultadoMedidaAuditiva" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id_Usu" />
+          </Key>
+          <Property Name="Id_Usu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="12" />
+          <Property Name="Id_Em" Type="int" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="50" />
+          <Property Name="clave" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Area__Id_Loc__3C69FB99">
+          <End Role="Local" Type="Self.Local" Multiplicity="1" />
+          <End Role="Area" Type="Self.Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Local">
+              <PropertyRef Name="Id_Loc" />
+            </Principal>
+            <Dependent Role="Area">
+              <PropertyRef Name="Id_Loc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Local__Id_Em__398D8EEE">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="Local" Type="Self.Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Em" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="Id_Em" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Puesto_tr__Id_Ar__4AB81AF0">
+          <End Role="Area" Type="Self.Area" Multiplicity="1" />
+          <End Role="Puesto_trabajo" Type="Self.Puesto_trabajo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="Id_Ar" />
+            </Principal>
+            <Dependent Role="Puesto_trabajo">
+              <PropertyRef Name="Id_Ar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Puesto_tr__Id_Lo__4BAC3F29">
+          <End Role="Local" Type="Self.Local" Multiplicity="1" />
+          <End Role="Puesto_trabajo" Type="Self.Puesto_trabajo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Local">
+              <PropertyRef Name="Id_Loc" />
+            </Principal>
+            <Dependent Role="Puesto_trabajo">
+              <PropertyRef Name="Id_Loc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__Id_Em__4222D4EF">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Em" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Id_Em" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_SISTEMAS_DAWModelStoreContainer">
+          <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Puesto_trabajo" EntityType="Self.Puesto_trabajo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Area__Id_Loc__3C69FB99" Association="Self.FK__Area__Id_Loc__3C69FB99">
+            <End Role="Local" EntitySet="Local" />
+            <End Role="Area" EntitySet="Area" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Local__Id_Em__398D8EEE" Association="Self.FK__Local__Id_Em__398D8EEE">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Puesto_tr__Id_Ar__4AB81AF0" Association="Self.FK__Puesto_tr__Id_Ar__4AB81AF0">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="Puesto_trabajo" EntitySet="Puesto_trabajo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Puesto_tr__Id_Lo__4BAC3F29" Association="Self.FK__Puesto_tr__Id_Lo__4BAC3F29">
+            <End Role="Local" EntitySet="Local" />
+            <End Role="Puesto_trabajo" EntitySet="Puesto_trabajo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__Id_Em__4222D4EF" Association="Self.FK__Usuario__Id_Em__4222D4EF">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_SISTEMAS_DAWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DB_SISTEMAS_DAWEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Area" EntityType="DB_SISTEMAS_DAWModel.Area" />
+          <EntitySet Name="Empresa" EntityType="DB_SISTEMAS_DAWModel.Empresa" />
+          <EntitySet Name="Local" EntityType="DB_SISTEMAS_DAWModel.Local" />
+          <EntitySet Name="Puesto_trabajo" EntityType="DB_SISTEMAS_DAWModel.Puesto_trabajo" />
+          <EntitySet Name="Usuario" EntityType="DB_SISTEMAS_DAWModel.Usuario" />
+          <AssociationSet Name="FK__Area__Id_Loc__3C69FB99" Association="DB_SISTEMAS_DAWModel.FK__Area__Id_Loc__3C69FB99">
+            <End Role="Local" EntitySet="Local" />
+            <End Role="Area" EntitySet="Area" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Puesto_tr__Id_Ar__4AB81AF0" Association="DB_SISTEMAS_DAWModel.FK__Puesto_tr__Id_Ar__4AB81AF0">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="Puesto_trabajo" EntitySet="Puesto_trabajo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Local__Id_Em__398D8EEE" Association="DB_SISTEMAS_DAWModel.FK__Local__Id_Em__398D8EEE">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__Id_Em__4222D4EF" Association="DB_SISTEMAS_DAWModel.FK__Usuario__Id_Em__4222D4EF">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Puesto_tr__Id_Lo__4BAC3F29" Association="DB_SISTEMAS_DAWModel.FK__Puesto_tr__Id_Lo__4BAC3F29">
+            <End Role="Local" EntitySet="Local" />
+            <End Role="Puesto_trabajo" EntitySet="Puesto_trabajo" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="Id_Ar" />
+          </Key>
+          <Property Name="Id_Ar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Loc" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Local" Relationship="DB_SISTEMAS_DAWModel.FK__Area__Id_Loc__3C69FB99" FromRole="Area" ToRole="Local" />
+          <NavigationProperty Name="Puesto_trabajo" Relationship="DB_SISTEMAS_DAWModel.FK__Puesto_tr__Id_Ar__4AB81AF0" FromRole="Area" ToRole="Puesto_trabajo" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="Id_Em" />
+          </Key>
+          <Property Name="Id_Em" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Razon_social" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Ruc" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Usuario_creado" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_creado" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Local" Relationship="DB_SISTEMAS_DAWModel.FK__Local__Id_Em__398D8EEE" FromRole="Empresa" ToRole="Local" />
+          <NavigationProperty Name="Usuario" Relationship="DB_SISTEMAS_DAWModel.FK__Usuario__Id_Em__4222D4EF" FromRole="Empresa" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="Id_Loc" />
+          </Key>
+          <Property Name="Id_Loc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Em" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Encargado" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Area" Relationship="DB_SISTEMAS_DAWModel.FK__Area__Id_Loc__3C69FB99" FromRole="Local" ToRole="Area" />
+          <NavigationProperty Name="Empresa" Relationship="DB_SISTEMAS_DAWModel.FK__Local__Id_Em__398D8EEE" FromRole="Local" ToRole="Empresa" />
+          <NavigationProperty Name="Puesto_trabajo" Relationship="DB_SISTEMAS_DAWModel.FK__Puesto_tr__Id_Lo__4BAC3F29" FromRole="Local" ToRole="Puesto_trabajo" />
+        </EntityType>
+        <EntityType Name="Puesto_trabajo">
+          <Key>
+            <PropertyRef Name="Id_Pue" />
+          </Key>
+          <Property Name="Id_Pue" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Loc" Type="Int32" Nullable="false" />
+          <Property Name="Id_Ar" Type="Int32" Nullable="false" />
+          <Property Name="Id_Em" Type="Int32" Nullable="false" />
+          <Property Name="Id_Cues" Type="Int32" Nullable="false" />
+          <Property Name="Documento_identidad" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MedidaVisual" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ResultadoMedidaVisual" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MedidaAuditiva" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ResultadoMedidaAuditiva" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Area" Relationship="DB_SISTEMAS_DAWModel.FK__Puesto_tr__Id_Ar__4AB81AF0" FromRole="Puesto_trabajo" ToRole="Area" />
+          <NavigationProperty Name="Local" Relationship="DB_SISTEMAS_DAWModel.FK__Puesto_tr__Id_Lo__4BAC3F29" FromRole="Puesto_trabajo" ToRole="Local" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id_Usu" />
+          </Key>
+          <Property Name="Id_Usu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombres" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Apellidos" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Em" Type="Int32" Nullable="false" />
+          <Property Name="usuario1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Empresa" Relationship="DB_SISTEMAS_DAWModel.FK__Usuario__Id_Em__4222D4EF" FromRole="Usuario" ToRole="Empresa" />
+        </EntityType>
+        <Association Name="FK__Area__Id_Loc__3C69FB99">
+          <End Type="DB_SISTEMAS_DAWModel.Local" Role="Local" Multiplicity="1" />
+          <End Type="DB_SISTEMAS_DAWModel.Area" Role="Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Local">
+              <PropertyRef Name="Id_Loc" />
+            </Principal>
+            <Dependent Role="Area">
+              <PropertyRef Name="Id_Loc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Puesto_tr__Id_Ar__4AB81AF0">
+          <End Type="DB_SISTEMAS_DAWModel.Area" Role="Area" Multiplicity="1" />
+          <End Type="DB_SISTEMAS_DAWModel.Puesto_trabajo" Role="Puesto_trabajo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="Id_Ar" />
+            </Principal>
+            <Dependent Role="Puesto_trabajo">
+              <PropertyRef Name="Id_Ar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Local__Id_Em__398D8EEE">
+          <End Type="DB_SISTEMAS_DAWModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="DB_SISTEMAS_DAWModel.Local" Role="Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Em" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="Id_Em" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__Id_Em__4222D4EF">
+          <End Type="DB_SISTEMAS_DAWModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="DB_SISTEMAS_DAWModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Em" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Id_Em" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Puesto_tr__Id_Lo__4BAC3F29">
+          <End Type="DB_SISTEMAS_DAWModel.Local" Role="Local" Multiplicity="1" />
+          <End Type="DB_SISTEMAS_DAWModel.Puesto_trabajo" Role="Puesto_trabajo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Local">
+              <PropertyRef Name="Id_Loc" />
+            </Principal>
+            <Dependent Role="Puesto_trabajo">
+              <PropertyRef Name="Id_Loc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_SISTEMAS_DAWModelStoreContainer" CdmEntityContainer="DB_SISTEMAS_DAWEntities">
+          <EntitySetMapping Name="Area">
+            <EntityTypeMapping TypeName="DB_SISTEMAS_DAWModel.Area">
+              <MappingFragment StoreEntitySet="Area">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Loc" ColumnName="Id_Loc" />
+                <ScalarProperty Name="Id_Ar" ColumnName="Id_Ar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empresa">
+            <EntityTypeMapping TypeName="DB_SISTEMAS_DAWModel.Empresa">
+              <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="Fecha_creado" ColumnName="Fecha_creado" />
+                <ScalarProperty Name="Usuario_creado" ColumnName="Usuario_creado" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Ruc" ColumnName="Ruc" />
+                <ScalarProperty Name="Razon_social" ColumnName="Razon_social" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id_Em" ColumnName="Id_Em" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Local">
+            <EntityTypeMapping TypeName="DB_SISTEMAS_DAWModel.Local">
+              <MappingFragment StoreEntitySet="Local">
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Encargado" ColumnName="Encargado" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Em" ColumnName="Id_Em" />
+                <ScalarProperty Name="Id_Loc" ColumnName="Id_Loc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Puesto_trabajo">
+            <EntityTypeMapping TypeName="DB_SISTEMAS_DAWModel.Puesto_trabajo">
+              <MappingFragment StoreEntitySet="Puesto_trabajo">
+                <ScalarProperty Name="ResultadoMedidaAuditiva" ColumnName="ResultadoMedidaAuditiva" />
+                <ScalarProperty Name="MedidaAuditiva" ColumnName="MedidaAuditiva" />
+                <ScalarProperty Name="ResultadoMedidaVisual" ColumnName="ResultadoMedidaVisual" />
+                <ScalarProperty Name="MedidaVisual" ColumnName="MedidaVisual" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="Documento_identidad" ColumnName="Documento_identidad" />
+                <ScalarProperty Name="Id_Cues" ColumnName="Id_Cues" />
+                <ScalarProperty Name="Id_Em" ColumnName="Id_Em" />
+                <ScalarProperty Name="Id_Ar" ColumnName="Id_Ar" />
+                <ScalarProperty Name="Id_Loc" ColumnName="Id_Loc" />
+                <ScalarProperty Name="Id_Pue" ColumnName="Id_Pue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="DB_SISTEMAS_DAWModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="usuario1" ColumnName="usuario" />
+                <ScalarProperty Name="Id_Em" ColumnName="Id_Em" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Id_Usu" ColumnName="Id_Usu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

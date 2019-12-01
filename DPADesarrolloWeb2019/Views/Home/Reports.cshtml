@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+}
+
+@using DesarrolloBE;
+@{
+
+    //List<Puesto_trabajo> listado = (List<Puesto_trabajo>)ViewBag.ListadoDirector;
+}
+
+<input type="text" id="hiduser" value="@HttpContext.Current.Session["sessionUser"]" />
+<input type="text" id="hidCompany" value="@HttpContext.Current.Session["sessionCompany"]" />
+<!-- DATATABLE -->
+<h1>REPORTES GENERALES</h1>
+
+<div id="container" class="container">
+    <div class="row">
+        <div class="col-lg-3">Documento de identidad</div>
+        <div class="col-lg-7"><input type="text" id="txtFilterID" maxlength="8" /></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">Nombre de empleado</div>
+        <div class="col-lg-7"><input type="text" id="txtFilterNombre" maxlength="25" /></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-7"><input type="button" id="btnFind" value="Buscar" /></div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-8">
+            <table id="resultHTML" class="table table-bordered ">
+                <thead>
+                    <tr>
+                        <th>DNI</th>
+                        <th>EMPLEADO</th>
+                        <th>RESULTADOVISUAL</th>
+                        <th>RESULTADOAUDITIVO</th>
+                    </tr>
+                </thead>
+                <tbody id="resultBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+         $('#menuReports').click(function () {
+           window.location.href = "@Url.Action("Menu","Home")";
+        });
+
+
+        $('#btnFind').click(function () {
+            $("#resultBody").empty();
+            $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    url: "@Url.Action("getReport", "Reports")",
+                    data: JSON.stringify({ id: $("#txtFilterID").val(), name: $("#txtFilterNombre").val(), companyId: $("#hidCompany").val() }),
+                    success: function (data) {
+                    $.each(data, function (i, obj) {
+                        $('#resultHTML > tbody').append(
+                                '<tr>' +
+                                    '<td>' + obj.Documento_identidad + '</td>' +
+                                    '<td>' + obj.NombreCompleto + '</td>' +
+                                    '<td>' + obj.ResultadoMedidaVisual + '</td>' +
+                                    '<td>' + obj.ResultadoMedidaAuditiva + '</td>' +
+                                '</tr >'
+                           );
+                        });
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+        });                      
+    });
+</script>

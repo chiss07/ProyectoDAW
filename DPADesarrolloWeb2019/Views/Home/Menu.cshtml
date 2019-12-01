@@ -1,0 +1,607 @@
+﻿
+@{
+    ViewBag.Title = "Menu";
+
+}
+
+
+
+<input type="text" id="hiduser" value="@HttpContext.Current.Session["sessionUser"]" />
+<input type="text" id="hidCompany" value="@HttpContext.Current.Session["sessionCompany"]" />
+
+<h2>BIENVENIDOS</h2>
+
+<!-- Adicion de Local -->
+<div class="modal fade" id="modalLocalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Registrar local</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <input type="text" id="hidLocationId" value="-1" />
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Nombre</td>
+                            <td><input type="text" id="localNombre" maxlength="15" /></td>
+                        </tr>
+                        <tr>
+                            <td>Direccion</td>
+                            <td><input type="text" id="localDireccion" maxlength="75" /></td>
+                        </tr>
+                        <tr>
+                            <td>Encargado</td>
+                            <td><input type="text" id="localEncargado" maxlength="75" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>-</td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td><input type="button" id="registrarLocal" value="Agregar local" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-default" id="closeLocal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Adicion de area -->
+
+    <div class="modal fade" id="modalAreaForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Registrar area</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <table>
+                        <tbody>
+
+                            <tr>
+                                <td>Local</td>
+                                <td>
+                                    <select id="selAreaLocation" class="browser-default custom-select">
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Nombre</td>
+                                <td><input type="text" id="areaNombre" maxlength="15" /></td>
+                            </tr>
+
+
+                            <tr>
+                                <td></td>
+                                <td><input type="button" id="registrarArea" value="Agregar area" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-default" id="closeArea">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carga de fichero  -->
+    <div class="modal fade" id="modalUploadForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Carga de colaboradores</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+
+                    <select id="selLocation" class="browser-default custom-select">
+                    </select>
+
+                    <select id="selArea" class="browser-default custom-select">
+                    </select>
+
+                    <input type="file" id="fuEmployeeLoad" name="file">
+                    <input type="button" id="btnEmployeeLoad" value="Cargar archivo" />
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-default" id="closeLoad">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Procesamiento mensual -->
+    <div class="modal fade" id="modalProcessForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Procesado de colaboradores</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+
+                    <select id="selLocationProcess" class="browser-default custom-select">
+                    </select>
+
+                    <select id="selAreaProcess" class="browser-default custom-select">
+                    </select>
+
+                    <input type="file" id="fuProcessFile" name="file">
+                    <input type="button" id="btnProcessFile" value="Procesamiento" />
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-default" id="closeProcess">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-center">
+        <button type="button" class="btn btn-primary" id="menuAddLocal">Locales</button>
+        <button type="button" class="btn btn-primary" id="menuAddArea">Crear area</button>
+        <button type="button" class="btn btn-primary" id="menuEmployeeLoad">Cargar colaboradores</button>
+        <button type="button" class="btn btn-primary" id="menuProcessLoad">Proceso mensual</button>
+        <button type="button" class="btn btn-primary" id="menuReports">Reportes</button>
+    </div>
+
+
+
+    <div id="locales" style="display:none;width: 1200PX; height: 600PX; background-color: aliceblue;">
+        <button type="button" class="btn btn-primary" id="nuevoLocal">Nuevo local</button>
+        <table id="tblLocations" class="table table-bordered">
+            <thead>
+                <tr>
+                    <td width="40">Id</td>
+                    <td width="200">Nombre</td>
+                    <td width="250">Direccion</td>
+                    <td width="100">Telefono</td>
+                    <td width="200">Encargado</td>
+                    <td width="200">Controles</td>
+                </tr>
+            </thead>
+            <tbody id="resultBody">
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" id="hideLocales">ocultar</button>
+    </div>
+
+
+    <div id="areas" style="display:none;">
+        <button type="button" class="btn btn-primary" id="nuevoArea">Nuevo Area</button>
+
+        <select id="areasLocation" class="browser-default custom-select">
+        </select>
+
+        <table id="tblAreas" class="table table-bordered">
+            <thead>
+                <tr>
+                    <td width="50">Id</td>
+                    <td width="250">Nombre</td>
+                </tr>
+            </thead>
+        </table>
+        <button type="button" class="btn btn-primary" id="hideAreas">Ocultar</button>
+    </div>
+
+    <script type="text/javascript">
+
+   $(document).ready(function () {
+
+       //cerrar popups
+       $('#closeLocal').click(function () {
+           $("#modalLocalForm").modal('hide');
+       });
+       $('#closeArea').click(function () {
+           $("#modalAreaForm").modal('hide');
+       });
+       $('#closeLoad').click(function () {
+           $("#modalUploadForm").modal('hide');
+       });
+       $('#closeProcess').click(function () {
+           $("#modalProcessForm").modal('hide');
+       });
+
+       //mostrar reportes
+       $('#menuReports').click(function () {
+           window.location.href = "@Url.Action("Reports","Home")";
+       });
+
+        //listar y mostrar locales
+        $('#menuAddLocal').click(function () {
+            $("#resultBody").empty();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("getLocationByCompanyId", "Home")",
+                data: JSON.stringify({ companyId: $("#hidCompany").val().trim() }),
+                success: function (data) {
+                    $.each(data, function (i, obj) {
+                        console.log(obj);
+                        $('#tblLocations > tbody').append(
+                                '<tr>' +
+                                    '<td>' + obj.Id_Loc + '</td>' +
+                                    '<td>' + obj.Nombre + '</td>' +
+                                    '<td>' + obj.Direccion + '</td>' +
+                                    '<td>' + obj.Telefono + '</td>' +
+                                    '<td>' + obj.Encargado + '</td>' +
+                                    '<td>' +
+                                          '<input type="button" id="btnEditarLocal" data-codigo=' + obj.Id_Loc + ' class="btn btn-info btnEditarLocal" value="Editar" /> '      +
+                                          '<input type="button" id="btnEliminarLocal" class="btn btn-danger btnEliminarLocal" value="Eliminar" />' +
+                                    '</td > ' +
+                                '</tr >'
+                           );
+                    });
+                }
+            });
+            $("#locales").css("display", "block");
+            $("#areas").css("display", "none");
+        });
+
+        //mostrar modal de insertar local
+       $('#nuevoLocal').click(function () {
+            $("#hidLocationId").val("-1");
+            $("#localNombre").val("");
+            $("#localDireccion").val("");
+            $("#localEncargado").val("");
+            $("#modalLocalForm").modal('show');
+        });
+
+       //accion de insertar local
+       //$("#registrarLocal").on("click", function () {
+        $("#registrarLocal").click(function () {
+
+            var vCodigo = $("#hidLocationId").val().trim();
+            var vNombre = $("#localNombre").val().trim();
+            var vDireccion = $("#localDireccion").val().trim();
+            var vEncargado = $("#localEncargado").val().trim();
+            var vCompany = $("#hidCompany").val().trim();
+
+           /* alert("Codigo: " + vCodigo);
+            alert("Nombre: " + vNombre);
+            alert("Direccion:" + vDireccion);
+            alert("Encargado: " + vEncargado);
+            alert("Company: " + vCompany);*/
+
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("addLocal", "Home")",
+                data: JSON.stringify({ localId: vCodigo, nombre: vNombre, direccion: vDireccion, encargado: vEncargado, companyId: vCompany }),
+                success: function (data) {
+                    if (data == 1) {
+                        alert("Operacion satisfactoria");
+                    }
+                    else {
+                        alert("Error en la operacion");
+                    }
+                }
+            });
+
+
+
+        });
+
+
+       //ocultar mantenimiento de locales
+        $('#hideLocales').click(function () {
+            $("#locales").css("display", "none");
+        });
+
+
+        //cargar listado de locales para listar areas
+       $('#menuAddArea').click(function () {
+           $('#areasLocation').empty().append('<option selected="selected" value="-1">Seleccionar Local</option>');
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("getLocationByCompanyId", "Home")",
+                data: JSON.stringify({ companyId: $("#hidCompany").val().trim() }),
+                success: function (data) {
+                    $.each(data, function(i, obj) {
+                        $('#areasLocation').append(new Option(obj.Nombre, obj.Id_Loc));
+                    });
+                }
+            });
+           $("#areas").css("display", "block");
+           $("#locales").css("display", "none");
+       });
+
+       //cargar areas seleccionadas de un local
+       $('#areasLocation').on('change', function() {
+
+            //$('#selAreaLocation').empty().append('<option selected="selected" value="-1">Seleccionar</option>');
+           $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("getAreaByLocationId", "Home")",
+                data: JSON.stringify({ locationId: $("#areasLocation option:selected").val().trim() }),
+                success: function (data) {
+                    $.each(data, function (i, obj) {
+                        console.log(obj);
+                        $('#tblAreas tr:last').after(
+                                '<tr>' +
+                                    '<td>' + obj.Id_Ar + '</td>' +
+                                    '<td>' + obj.Nombre + '</td>' +
+                                    '<td>' +
+                                          '<input type="button" id="btnEditarArea" class="btn btn-info btnEditarArea" value="Editar" /> '      +
+                                          '<input type="button" id="btnEliminarArea" class="btn btn-danger btnEliminarArea" value="Eliminar" />' +
+                                    '</td > ' +
+                                '</tr >'
+                           );
+                    });
+                }
+            });
+
+        });
+
+       //mostrar modal de insertar area
+       $('#nuevoArea').click(function () {
+
+           $('#selAreaLocation').empty().append('<option selected="selected" value="-1">Seleccionar Local</option>');
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("getLocationByCompanyId", "Home")",
+                data: JSON.stringify({ companyId: $("#hidCompany").val().trim() }),
+                success: function (data) {
+                    $.each(data, function(i, obj) {
+                        $('#selAreaLocation').append(new Option(obj.Nombre, obj.Id_Loc));
+                    });
+                }
+            });
+
+
+            $("#modalAreaForm").modal('show');
+        });
+
+       //accion de agregar area
+        $("#registrarArea").on("click", function () {
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("addArea", "Home")",
+                data: JSON.stringify({ nombre: $("#areaNombre").val().trim(), locationId: $("#selAreaLocation option:selected").val().trim()  }),
+                success: function (data) {
+                    if (data == 1) {
+                        alert("Area creada");
+                    }
+                    else {
+                        alert("Error al crear area");
+                    }
+                }
+            });
+        });
+
+       //ocultar areas
+       $('#hideAreas').click(function () {
+            $("#areas").css("display", "none");
+       });
+
+
+
+        //mostrar pop up para editar locales GE
+       $("#locales").on('click', '.btnEditarLocal', function () {
+           var modalRegistro = $("#modalLocalForm");
+           var vCodigo = $(this).attr("data-codigo");
+           $("#hidLocationId").val(vCodigo);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("getLocationById", "Home")",
+                cache: false,
+                data: { localID: vCodigo },
+                dataType:"json",
+                success: function (data) {
+                    console.log(data);
+                    modalRegistro.modal();
+
+                    $("#localNombre").val(data.Nombre);
+                    $("#localDireccion").val(data.Telefono);
+                    $("#localEncargado").val(data.Encargado);
+
+                }
+            });
+
+        });
+
+
+
+
+
+
+        //menu adicion de planilla
+       $('#menuEmployeeLoad').click(function () {
+
+            $("#locales").css("display", "none");
+            $("#areas").css("display", "none");
+
+            $('#selLocation').empty().append('<option selected="selected" value="-1">Seleccionar</option>');
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("getLocationByCompanyId", "Home")",
+                data: JSON.stringify({ companyId: $("#hidCompany").val().trim() }),
+                success: function (data) {
+                    console.log(data);
+                    $.each(data, function(i, obj) {
+                        $('#selLocation').append(new Option(obj.Nombre, obj.Id_Loc));
+                    });
+                }
+            });
+            $('#modalUploadForm').modal('show');
+        });
+
+        //cambio en select de local
+        $('#selLocation').on('change', function() {
+            $('#selArea').empty().append('<option selected="selected" value="-1">Seleccionar</option>');
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("getAreaByLocationId", "Home")",
+                data: JSON.stringify({ locationId: $("#selLocation option:selected").val().trim() }),
+                success: function (data) {
+                    $.each(data, function(i, obj) {
+                        $('#selArea').append(new Option(obj.Nombre, obj.Id_Ar));
+                    });
+                }
+            });
+        });
+
+
+        $('#btnEmployeeLoad').click(function () {
+            if (window.FormData !== undefined) { // Checking whether FormData is available in browser
+                var fileUpload = $("#fuEmployeeLoad").get(0);
+                var files = fileUpload.files;
+                // Create FormData object
+                var fileData = new FormData();
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                // Adding one more key to FormData object
+                fileData.append('company', $("#hidCompany").val().trim());
+                fileData.append('location', $("#selLocation option:selected").val().trim());
+                fileData.append('area', $("#selArea option:selected").val().trim());
+
+
+                $.ajax({
+                    url: "@Url.Action("UploadFiles", "Home")",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        alert(result);
+                        $("#fuEmployeeLoad").val(null);
+                        $("#selArea").val(-1);
+                        $("#selLocation").val(-1);
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        });
+
+
+
+       $('#menuProcessLoad').click(function () {
+
+           $("#locales").css("display", "none");
+           $("#areas").css("display", "none");
+
+           $('#selLocationProcess').empty().append('<option selected="selected" value="-1">Seleccionar</option>');
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("getLocationByCompanyId", "Home")",
+                data: JSON.stringify({ companyId: $("#hidCompany").val().trim() }),
+                success: function (data) {
+                    $.each(data, function(i, obj) {
+                        $('#selLocationProcess').append(new Option(obj.Nombre, obj.Id_Loc));
+                    });
+                }
+            });
+            $('#modalProcessForm').modal('show');
+        });
+
+
+        $('#selLocationProcess').on('change', function() {
+
+            $('#selAreaProcess').empty().append('<option selected="selected" value="-1">Seleccionar</option>');
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                url: "@Url.Action("getAreaByLocationId", "Home")",
+                data: JSON.stringify({ locationId: $("#selLocationProcess option:selected").val().trim() }),
+                success: function (data) {
+                    $.each(data, function(i, obj) {
+                        $('#selAreaProcess').append(new Option(obj.Nombre, obj.Id_Ar));
+                    });
+                }
+            });
+
+        });
+
+        $('#btnProcessFile').click(function () {
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#fuProcessFile").get(0);
+                var files = fileUpload.files;
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                fileData.append('company', $("#hidCompany").val().trim());
+                fileData.append('location', $("#selLocationProcess option:selected").val().trim());
+                fileData.append('area', $("#selAreaProcess option:selected").val().trim());
+
+                $.ajax({
+                    url: "@Url.Action("processFiles", "Home")",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: function (result) {
+                        alert(result);
+
+                        //limpiar procesado de archivos
+                        $("#fuProcessFile").val(null);
+                        $("#selAreaProcess").val(-1);
+                        $("#selLocationProcess").val(-1);
+
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        });
+
+
+
+          //mostrar pop up para editar locales
+       $("#areas").on('click', '.btnEditarArea', function () {
+            //ajax
+           //setear el valor del hid
+
+
+
+        });
+
+
+    });
+
+    </script>

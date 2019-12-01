@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/jquery-3.4.1.min.js")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <!-- CSS CHIS -->
+
+    <style type="text/css">
+        h2 {
+            color: #252378;
+            margin: 40px auto 30px auto;
+            text-align: center;
+        }
+
+            h2:hover {
+                color: #9898a3;
+                font-weight:bold;
+
+            }
+
+        table {
+            box-shadow: 6px 6px 6px #ccc;
+            background-color: #dddee3;
+            margin: auto;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        td {
+            color: #070726;
+            padding: 30px 50px 30px 50px;
+        }
+
+            td:hover {
+                color: #adadb4;
+                font-weight:bold;
+            }
+
+        input {
+            border-radius: 5px;
+        }
+
+        #btnAddCustomerData {
+            margin: 20px auto 20px auto;
+            display: block;
+        }
+        .lead{
+            text-align:center;
+        }
+        .body-content{
+           margin-top: 20px;
+        }
+        #locales{
+            padding:20px;
+            margin-top: 20px;
+        }
+        #areas{
+            background-color: aliceblue;
+            padding:20px;
+            margin-top: 20px;
+        }
+        #container.container{
+            background-color: aliceblue;
+            padding:20px;
+            margin-top: 20px;
+        }
+        #btnFind{
+            margin-top: 20px;
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- 64Html.ActionLink("App Desarrollo Web", "Index", "Home", new { area = "" }, new { 64class = "navbar-brand" }) -->
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    
+                    @{ 
+                        string actionCall = (Session["sessionUser"]==null)?"Index":"Menu";
+                        string displayli = (Session["sessionUser"]==null)? "none" : "block";
+                        
+                    }
+                    
+                    <li>@Html.ActionLink("Inicio", actionCall, "Home")</li>
+
+                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                    <li style="display:@displayli" >@Html.ActionLink("Logout", "Logout", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        </footer>
+    </div>
+
+ 
+</body>
+</html>

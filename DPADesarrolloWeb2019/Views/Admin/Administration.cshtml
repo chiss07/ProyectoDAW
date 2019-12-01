@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "Administration";
+}
+
+<h2>ADMINISTRACIÓN DE SOLUCIÓN</h2>
+
+
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Registrar empresa y usuario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-default">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalAddUserForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Registrar empresa y usuario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-default">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">
+        Adición de empresa
+    </a>
+    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalAddUserForm">
+        Crear usuario
+    </a>
+</div>
+
+
+<table>
+    <tbody>
+        <tr>
+            <td>Nombre</td>
+            <td><input type="text" id="companyName" maxlength="25"/></td>
+        </tr>
+        <tr>
+            <td>RUC</td>
+            <td><input type="text" id="companyId" maxlength="12" /></td>
+        </tr>
+        <tr>
+            <td>Nombre de Usuario</td>
+            <td><input type="text" id="userName" maxlength="25" /></td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td><input type="text" id="userLogin"  maxlength="10"/></td>
+        </tr>
+        <tr>
+            <td>Clave</td>
+            <td><input type="text" id="userPassword" maxlength="6"/></td>
+        </tr>
+    </tbody>
+</table>
+<input type="button" id="btnAddCustomerData" value="Registrar cliente" />
+
+<script>
+
+
+    $("#btnAddCustomerData").on("click", function () {
+
+        if ($("#companyName").val().trim() == "" || $("#userName").val().trim() == "" || $("#companyId").val().trim() == ""
+            || $("#userName").val().trim() == "" || $("#userPassword").val().trim() == "")
+
+
+        {
+            alert("Todos los campos deben estar completos. Escalar a gerencia el error del usuario.");
+            return;
+        }
+
+
+         $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            url: "@Url.Action("addCustomerData", "Admin")",
+             data: JSON.stringify({
+                 companyname: $("#companyName").val().trim(),
+                 companyid: $("#companyId").val().trim(),
+                 username: $("#userName").val().trim(),
+                 userlogin: $("#userLogin").val().trim(),
+                 userpassword: $("#userPassword").val().trim()
+             }),
+            success: function (data) {
+                if(data == 1)
+                {
+
+                }
+                else {
+                    alert("Error en backend ");
+                }
+             }
+         });
+
+    });
+
+
+
+  
+</script>
